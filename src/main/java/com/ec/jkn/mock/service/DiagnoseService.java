@@ -9,5 +9,5 @@ import java.util.List;
 public interface DiagnoseService {
     DiagnoseResponse create(DiagnoseRequest request);
 
-    List<DiagnoseResponse> getAllBills();
+    List<DiagnoseResponse> getAllDiagnoses();
 }

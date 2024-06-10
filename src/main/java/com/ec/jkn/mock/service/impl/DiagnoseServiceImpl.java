@@ -73,8 +73,28 @@ public class DiagnoseServiceImpl implements DiagnoseService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public List<DiagnoseResponse> getAllBills() {
-        return List.of();
+    public List<DiagnoseResponse> getAllDiagnoses() {
+        List<Diagnose> diagnoses = diagnoseRepository.findAll();
+        return diagnoses.stream().map(diagnose -> {
+            List<DiagnoseDetailResponse> diagnoseDetailResponses = diagnose.getDiagnoseDetails().stream().map(diagnoseDetail -> {
+                return DiagnoseDetailResponse.builder()
+                        .id(diagnoseDetail.getId())
+                        .doctorId(diagnoseDetail.getDoctor().getId())
+                        .illnessId(diagnoseDetail.getIllness().getId())
+                        .diagnoseResult(diagnoseDetail.getDiagnoseResult())
+                        .isReferenced(diagnoseDetail.getIsReferenced())
+                        .build();
+            }).toList();
+
+            return DiagnoseResponse.builder()
+                    .id(diagnose.getId())
+                    .customerId(diagnose.getCustomer().getId())
+                    .puskesmasId(diagnose.getPuskesmas().getId())
+                    .visitDate(diagnose.getVisitDate())
+                    .diagnoseDetails(diagnoseDetailResponses)
+                    .build();
+        }).toList();
     }
 }
