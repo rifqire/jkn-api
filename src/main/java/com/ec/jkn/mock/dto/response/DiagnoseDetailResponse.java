@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 public class DiagnoseDetailResponse {
     private String id;
-    private String diagnoseId;
     private String doctorId;
     private String illnessId;
     private String diagnoseResult;

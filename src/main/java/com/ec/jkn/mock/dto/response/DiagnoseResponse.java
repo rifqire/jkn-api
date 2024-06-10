@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class DiagnoseResponse {
+    private String id;
     private String customerId;
     private String puskesmasId;
     private Date visitDate;
