@@ -3,7 +3,8 @@ package com.ec.jkn.mock.service;
 import com.ec.jkn.mock.dto.request.NewDoctorRequest;
 import com.ec.jkn.mock.dto.request.SearchDoctorRequest;
 import com.ec.jkn.mock.entity.Doctor;
-import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface DoctorService {
     Doctor create(NewDoctorRequest request);
@@ -14,5 +15,5 @@ public interface DoctorService {
 
     void deleteById(String id);
 
-    Page<Doctor> getAll(SearchDoctorRequest request);
+    List<Doctor> getAll(SearchDoctorRequest request);
 }

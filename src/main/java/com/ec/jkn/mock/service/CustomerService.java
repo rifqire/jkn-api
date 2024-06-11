@@ -3,7 +3,8 @@ package com.ec.jkn.mock.service;
 import com.ec.jkn.mock.dto.request.NewCustomerRequest;
 import com.ec.jkn.mock.dto.request.SearchCustomerRequest;
 import com.ec.jkn.mock.entity.Customer;
-import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface CustomerService {
     Customer create(NewCustomerRequest request);
@@ -14,5 +15,5 @@ public interface CustomerService {
 
     void deleteById(String id);
 
-    Page<Customer> getAll(SearchCustomerRequest request);
+    List<Customer> getAll(SearchCustomerRequest request);
 }

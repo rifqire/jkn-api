@@ -8,7 +8,6 @@ import com.ec.jkn.mock.dto.response.CommonResponse;
 import com.ec.jkn.mock.entity.Doctor;
 import com.ec.jkn.mock.service.DoctorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,12 +76,12 @@ public class DoctorController {
                 .specialization(specialization)
                 .experienceYears(experienceYears)
                 .build();
-        Page<Doctor> allDoctors = doctorService.getAll(request);
+        List<Doctor> allDoctors = doctorService.getAll(request);
 
         CommonResponse<List<Doctor>> response = CommonResponse.<List<Doctor>>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message(ResponseMessage.SUCCESS_GET_ALL_DATA)
-                .data(allDoctors.getContent())
+                .data(allDoctors)
                 .build();
         return ResponseEntity.ok(response);
     }

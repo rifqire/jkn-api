@@ -9,15 +9,13 @@ import com.ec.jkn.mock.service.CustomerService;
 import com.ec.jkn.mock.specification.CustomerSpecification;
 import com.ec.jkn.mock.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -66,34 +64,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Customer> getAll(SearchCustomerRequest request) {
-        if (request.getPage() <= 0) {
-            request.setPage(1);
-        }
-
-        String validSortBy;
-        if ("name".equalsIgnoreCase(request.getSortBy()) ||
-                "birthDate".equalsIgnoreCase(request.getSortBy()) ||
-                "bpjsNumber".equalsIgnoreCase(request.getSortBy()) ||
-                "faskes".equalsIgnoreCase(request.getSortBy()) ||
-                "phoneNumber".equalsIgnoreCase(request.getSortBy()) ||
-                "isActive".equalsIgnoreCase(request.getSortBy())) {
-            validSortBy = request.getSortBy();
-        } else {
-            validSortBy = "name";
-        }
-
-        // Sorting dengan param yg ditentukan di atas
-        Sort sort = Sort.by(Sort.Direction.fromString(request.getDirection()), validSortBy);
-
-        // Rumus pagination, kalau di frontend mulai dari 1 di backend mulai dari 0
-        Pageable pageable = PageRequest.of((request.getPage() - 1), request.getSize(), sort);
-
+    public List<Customer> getAll(SearchCustomerRequest request) {
         // Jika semua request param null maka find all, kalau ada param nya pakai specification
         Specification<Customer> customerSpecification = CustomerSpecification.getSpecification(request);
         if (request.getName() == null && request.getBirthDate() == null && request.getBpjsNumber() == null && request.getFaskes() == null && request.getPhoneNumber() == null && request.getIsActive() == null) {
-            return customerRepository.findAll(pageable);
+            return customerRepository.findAll();
         }
-        return customerRepository.findAll(customerSpecification, pageable);
+        return customerRepository.findAll(customerSpecification);
     }
 }
