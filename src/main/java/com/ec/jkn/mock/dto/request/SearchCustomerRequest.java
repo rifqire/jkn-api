@@ -8,12 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class SearchCustomerRequest {
-    // Ini untuk pagination
-    private Integer page;
-    private Integer size;
-    private String sortBy;
-    private String direction;
-    // Ini untuk datanya
     private String name;
     private String birthDate;
     private String bpjsNumber;
